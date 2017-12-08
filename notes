@@ -1,0 +1,50 @@
+pseudo code
+
+click on piece
+determines possible moves (checks what piece type, color and pos)
+add click events for those (remove every other one?) and add click on self to cancel and re add original clicks?
+
+update the board after a confirm
+  update image of source and target location
+  replaces the image of location with source
+
+
+if i want to do objects
+  8 x 4 objects or will I have each square as an object
+
+  if I use objects only for the chess piece here are potential properties
+    position x and y
+    colors
+    state (alive?)
+    priority?
+    change classes of the squares on the board
+  this way we can use this method to move pieces around like so:
+    update x and y when clicked in possible spot
+    run an update function that first kills the piece in the way
+
+
+  if i use objects for each chess square
+    has chess piece in it
+
+movesets
+
+pawn
+  can move two if first move
+  can move one up or down
+  can move diagonal if eating
+
+  opposite values for black
+rook
+  can move anywhere vertically or horizontally unless there's something in front of it.
+  will loop through incremented squares until it meets a square with a piece, if opposite color, that is as far as it can go, -1 if same color
+bishop
+  same as rook but col and row have to be increased equally
+queen
+  combined rook bishop
+knight
+  moves vertically or horizontally twice, then perpendicular once.
+king
+  queen but only 1 square out
+
+logic for checking spots
+  loop outwards from current square, and set square property to moveable so highlight
