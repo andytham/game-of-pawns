@@ -16,11 +16,13 @@
 .row{
 
 	justify-content: space-around;
+	flex-direction: column-reverse;
 	align-items: center;
 	background-color: red;
 }
 .col{
 	justify-content: left-start;
+
 }
 
 
