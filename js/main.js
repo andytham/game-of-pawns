@@ -22,7 +22,7 @@ col = ['','','','','','','',''];
 class ChessPiece {
   //rows are called ranks in chess
   //columns are called files in chess
-  constructor(piece, color, number, rank, file, isAlive, isSelected){
+  constructor(piece, color, number, rank, file, isAlive, isSelected, isTargeted){
     this.piece = piece;
     this.color = color;
     this.number = number;
@@ -30,6 +30,7 @@ class ChessPiece {
     this.file = file;
     this.isAlive = isAlive;
     this.isSelected = isSelected;
+    this.isTargeted = isTargeted;
   }
   pushIntoArray(){
     //eval(this.color+"Pieces").push(this);
@@ -47,34 +48,35 @@ const blackPieces = [];
 const piecesInPlay = [];
 
 const createPawns = function createBothPlayersPawns(){
-  const whitepawn1 = new ChessPiece("pawn", "white", 1, 2, 1, true, false);
-  const whitepawn2 = new ChessPiece("pawn", "white", 2, 2, 2, true, false);
-  const whitepawn3 = new ChessPiece("pawn", "white", 3, 2, 3, true, false);
-  const whitepawn4 = new ChessPiece("pawn", "white", 4, 2, 4, true, false);
-  const whitepawn5 = new ChessPiece("pawn", "white", 5, 2, 5, true, false);
-  const whitepawn6 = new ChessPiece("pawn", "white", 6, 2, 6, true, false);
-  const whitepawn7 = new ChessPiece("pawn", "white", 7, 2, 7, true, false);
-  const whitepawn8 = new ChessPiece("pawn", "white", 8, 2, 8, true, false);
-  const blackpawn1 = new ChessPiece("pawn", "black", 1, 7, 8, true, false);
-  const blackpawn2 = new ChessPiece("pawn", "black", 2, 7, 7, true, false);
-  const blackpawn3 = new ChessPiece("pawn", "black", 3, 7, 6, true, false);
-  const blackpawn4 = new ChessPiece("pawn", "black", 4, 7, 5, true, false);
-  const blackpawn5 = new ChessPiece("pawn", "black", 5, 7, 4, true, false);
-  const blackpawn6 = new ChessPiece("pawn", "black", 6, 7, 3, true, false);
-  const blackpawn7 = new ChessPiece("pawn", "black", 7, 7, 2, true, false);
-  const blackpawn8 = new ChessPiece("pawn", "black", 8, 7, 1, true, false);
+  const whitepawn1 = new ChessPiece("pawn", "white", 1, 2, 1, true, false, false);
+  const whitepawn2 = new ChessPiece("pawn", "white", 2, 2, 2, true, false, false);
+  const whitepawn3 = new ChessPiece("pawn", "white", 3, 2, 3, true, false, false);
+  const whitepawn4 = new ChessPiece("pawn", "white", 4, 2, 4, true, false, false);
+  const whitepawn5 = new ChessPiece("pawn", "white", 5, 2, 5, true, false, false);
+  const whitepawn6 = new ChessPiece("pawn", "white", 6, 2, 6, true, false, false);
+  const whitepawn7 = new ChessPiece("pawn", "white", 7, 2, 7, true, false, false);
+  const whitepawn8 = new ChessPiece("pawn", "white", 8, 2, 8, true, false, false);
+  const blackpawn1 = new ChessPiece("pawn", "black", 1, 7, 8, true, false, false);
+  const blackpawn2 = new ChessPiece("pawn", "black", 2, 7, 7, true, false, false);
+  const blackpawn3 = new ChessPiece("pawn", "black", 3, 7, 6, true, false, false);
+  const blackpawn4 = new ChessPiece("pawn", "black", 4, 7, 5, true, false, false);
+  const blackpawn5 = new ChessPiece("pawn", "black", 5, 7, 4, true, false, false);
+  const blackpawn6 = new ChessPiece("pawn", "black", 6, 7, 3, true, false, false);
+  const blackpawn7 = new ChessPiece("pawn", "black", 7, 7, 2, true, false, false);
+  const blackpawn8 = new ChessPiece("pawn", "black", 8, 7, 1, true, false, false);
   for(i = 1; i < 9; i++){
     eval("whitepawn"+i).pushIntoArray();
     eval("blackpawn"+i).pushIntoArray();
   }
-    console.log(piecesInPlay[1]);
+  // console.log(piecesInPlay[1]);
   // console.log(piecesInPlay);
   // console.log(piecesInPlay[0].piece)
 }
 
 const render = function placeChessPiecesBasedOnLocation(){
   //console.log(piecesInPlay);
-
+  wipeBoard();
+  createBoard();
   for(let entry of piecesInPlay){
     //console.log(entry);
     // wipe board?
@@ -87,7 +89,8 @@ const render = function placeChessPiecesBasedOnLocation(){
         "data-color": entry.color,
         "data-piece": entry.piece,
         "data-number": entry.number,
-        "data-isAlive": entry.isAlive
+        "data-isAlive": entry.isAlive,
+        "data-isTargeted": entry.isTargeted,
       });
 
       //console.log($currentPieceLocation);
@@ -99,81 +102,124 @@ const render = function placeChessPiecesBasedOnLocation(){
   // for(i = 0; i < piecesInPlay.length; i++){
   //   console.log(this);
   // }
+  console.log(piecesInPlay);
 }
 //select piece for action
 const selectPiece = function selectPiece(){
   this.isSelected = true;
-  //console.log(this);
-  checkAllowedMoves(this);
+  $selected = $(this);
+  console.log($selected);
+  let tempMoves = [];
+  let possibleMoves = [];
 
-  deselectPiece(this);
+  let findColor = $selected.attr("data-color");
+  let findPiece = $selected.attr("data-piece");
+  let findNumber = $selected.attr("data-number");
+  let selectedChessPiece = piecesInPlay.filter(function(selPiece){ //grab the selected piece from the object array
+    return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
+  });
+  if(selectedChessPiece[0].color == "white"){ //white pawn possible moves
+    let move1 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file}`);
+    let move2 = $(`.row${selectedChessPiece[0].rank + 2}.col${selectedChessPiece[0].file}`);
+    let move3 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file - 1}`);
+    let move4 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file + 1}`)
+    //console.log(move1);
+    //console.log(move1.attr("data-isAlive"));
+    if(move1.attr("data-isAlive") == "false"){
+      //set click event on this
+      possibleMoves.push(move1);
+      if(move2.attr("data-isAlive") == "false"){
+          possibleMoves.push(move2);
+      }
+    }else if(move1.attr("data-isAlive") == "true"){
+    } else{
+      console.log('something broke');
+    }
+    if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "black"){
+      possibleMoves.push(move3);
+      let targetColor = move3.attr("data-color");
+      let targetPiece = move3.attr("data-piece");
+      let targetNumber = move3.attr("data-number");
+      let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+        return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+      });
+      targetChessPiece[0].isAlive = false;
+      selectedChessPiece[0].rank = targetChessPiece[0].rank;
+      selectedChessPiece[0].file = targetChessPiece[0].file;
+    }
+    if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
+      possibleMoves.push(move4);
+      let targetColor = move4.attr("data-color");
+      let targetPiece = move4.attr("data-piece");
+      let targetNumber = move4.attr("data-number");
+      let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+        return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+      });
+      targetChessPiece[0].isAlive = false;
+      selectedChessPiece[0].rank = targetChessPiece[0].rank;
+      selectedChessPiece[0].file = targetChessPiece[0].file;
+    }
+  } //end of white pawn logic
+
+      deselectPiece(this);
 }
 
+const confirmMove = function confirmMoveTheChessPiece(){
+  let confirmSquare = piecesInPlay.filter(function(selPiece){ //grab the selected piece from the object array
+    return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
+}
+
+const targetPiece = function targetPiece(){
+  this.isTargeted = true;
+}
 
 //click again on piece to deselect
 const deselectPiece = function deselectPiece(){
   this.isSelected = false;
 }
 
-const checkAllowedMoves = function checkWhichMovesArePossibleForSelectedPiece(selectedPiece){
-  $selectedPiece = $(selectedPiece);
-  //console.log($selectedPiece.attr("data-piece"));
+const findSelectedChessPiece = function findSelectedChessPieceHopefully(piece){
+  console.log(piece);
+  console.log('end of the line');
+  $selectedPiece = $(piece)
   let findColor = $selectedPiece.attr("data-color");
   let findPiece = $selectedPiece.attr("data-piece");
   let findNumber = $selectedPiece.attr("data-number");
   //https://stackoverflow.com/questions/13964155/get-javascript-object-from-array-of-objects-by-value-or-property
   //find the object in the array
-  let chessPieceInArray = piecesInPlay.filter(function(selPiece){
+  let selectedChessPiece = piecesInPlay.filter(function(selPiece){
     return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
-  })
-  // console.log(findObjectInArray);
-  // console.log(findObjectInArray[0].rank);
-
-  //possibleMoves stores each possible square move
-  //
-  let possibleMoves = [];
-  if(chessPieceInArray[0].color == "white"){
-
-
-    if(chessPieceInArray[0].rank == 2){ //checks for the double forward move
-      possibleMoves.push(`.row${chessPieceInArray[0].rank + 2}.col${chessPieceInArray[0].file}`);
-    }
-    possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file}`);  possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file - 1}`);
-    possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file + 1}`);
-  }
-
-  console.log(possibleMoves + 'hello');
-  removeClicks();
-
-  //creates selectable choices
-  for(i = 0; i < possibleMoves.length; i++){ //checks if you can capture/move
-    //check if empty space
-
-    if($(possibleMoves[i]).attr("data-isAlive") == true){
-      let targetedChessPiece = piecesInPlay.filter(function(targetPiece){
-        return targetPiece.color == findColor && targetPiece.piece == findPiece && targetPiece.number == findNumber;
-      });
-      console.log(targetedChessPiece);
-      console.log('yes there is something here');
-    } else{
-      console.log('there is nothing here');
-      $(possibleMoves[i]).click(test);
-      let numGrabRankRe = possibleMoves[i].match(/\d+/)[0];
-      let numGrabFileRe = possibleMoves[i].match(/\d+/)[1];
-      console.log("numgrab = " + numGrabRankRe + numGrabFileRe);
-      chessPieceInArray[0].rank = possibleMoves[i].attr;
-      chessPieceInArray[0].file = possibleMoves[i].file;
-
-    }
-
-    let targetColor = $selectedPiece.attr("data-color");
-    let targetPiece = $selectedPiece.attr("data-piece");
-    let targetNumber = $selectedPiece.attr("data-number");
-  }
-
-
+  });
+  console.log(selectedChessPiece)
+  return selectedChessPiece;
 }
 
+const checkAllowedMoves = function checkWhichMovesArePossibleForSelectedPiece(selectedPiece){
+  const updatePos = function updateChessPiecePosition(){
+    //regex help, updates the position of the selected piece
+    //https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
+    console.log("hello "+ selectedChessPiece[0]);
+    $currentSquare = $(this).attr("class");
+    let posGrabRe = $currentSquare.match(/\d/g);
+    console.log("updating pos");
+    selectedChessPiece[0].rank = posGrabRe[0];
+    selectedChessPiece[0].file = posGrabRe[1];
+    render();
+  }
+  //possibleMoves stores each possible square move
+  let tempMoves = [];
+  let possibleMoves = [];
+  selectedChessPiece = findSelectedChessPiece();
+
+        // if(selectedChessPiece[0].rank == 2){ //checks for the double forward move
+        // if($targetedSquare.attr("data-isAlive") == true && $targetedSquare.color == black){
+  // let targetedChessPiece = piecesInPlay.filter(function(targetPiece){
+  //   return targetPiece.color == targetColor && targetPiece.piece == targetPiece && targetPiece.number == targetNumber;
+  // });
+  console.log(possibleMoves + 'hello');
+  removeClicks();
+}
+//
 function test(){
   console.log('hello');
 }
@@ -184,10 +230,11 @@ const selfClick = function clickOnSelfToCancel(){
 const removeClicks = function clearClickEvents(){
   $("*").off("click");
 }
-
-const updatePos = function updateChessPiecePosition(){
-
+const wipeBoard = function wipeBoardToRerender(){
+  $(".col").detach();
 }
+
+
 
 const removePiece = function removePieceFromBoard(){
   $(this).detach();
@@ -203,7 +250,8 @@ const createBoard = function createChessBoard(){
     //create row entries
     for(j = row.length; j > 0; j--){
       let $rowCreate = $("<div></div>", {"class": "row col" + i + " row" + j});
-      $rowCreate.addClass("brown")
+      $rowCreate.addClass("brown");
+      $rowCreate.attr("data-isAlive", false);
       //checkerize the background
       if(i % 2 == 0 && j % 2 == 1){
         $rowCreate.removeClass("brown")
