@@ -1,0 +1,47 @@
+.clearfix:after {
+	visibility:hidden;
+	display:flex;
+	content: "";
+	clear: both;
+	height:0;
+	font-size: 0;
+}
+
+#board{
+	display:flex;
+	width:0px;
+	height: 0px;
+	border: 0;
+}
+.row{
+
+	justify-content: space-around;
+	align-items: center;
+	background-color: red;
+}
+.col{
+	justify-content: left-start;
+}
+
+
+
+div{
+	height: 100px;
+	width: 100px;
+	border: 1px solid black;
+}
+
+img{
+	width: 100%;
+}
+
+/* piece type */
+.bishop{
+	background: url('images/bishop.png');
+	width: 100px;
+	background-size:cover;
+}
+
+.pawn{
+	background: red;
+}
