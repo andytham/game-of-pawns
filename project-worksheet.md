@@ -22,7 +22,7 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 
 ## Priority Matrix
 
-![](http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_matrix.jpg)
+![pic](http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_matrix.jpg)
 
 ## MVP
 
