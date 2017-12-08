@@ -1,6 +1,6 @@
 .clearfix:after {
 	visibility:hidden;
-	display:flex;
+
 	content: "";
 	clear: both;
 	height:0;
