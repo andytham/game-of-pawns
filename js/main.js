@@ -84,6 +84,10 @@ const render = function placeChessPiecesBasedOnLocation(){
   // }
 }
 
+const removePiece = function removePieceFromBoard(){
+  
+}
+]
 const $board = $('#board');
 
 const createBoard = function createChessBoard(){

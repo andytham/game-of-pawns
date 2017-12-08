@@ -26,9 +26,25 @@ http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_ma
 
 ## MVP
 
-2 players, black and white, will enter their names on a landing page, game will initialize and create 8 pawns for each side on a checkered board. Players will try to get their pawns to the opposite of the board in order to turn their piece into a queen and win the game. Game ends once a player gets a queen. Pawn move logic has 5 basic rules. First a pawn can move two space forwards vertically, only if it is the pawn's very first move. Otherwise, the pawn can do 3 other things, move forward once vertically, or attack an enemy piece and take its spot, if it is diagonally ahead of it 1 space, defeat another piece 'en passant' where an enemy piece moves two spaces or 'ranks' ahead and lands next to your piece which you can then proceed to defeat. The final move a pawn can do is promotion, which is the goal of this game and is the win condition. The piece can promote itself to any higher rank piece, usually a queen.
+* 2 players black and white
+* enter name on page
+* game will initialize
+* checkered board create along with pawns
+* pawn logic 5 moves
+  * forward two moves only if first move
+  * forward one move
+  * diagonally to capture enemy piece
+  * en passant - capture a piece that it normally could if it moved one space instead of the allowed two that it performed taking its 'one-move' spot
+  * promotion - pawn reaches the end of the opposite side and can be 'promoted' to a higher rank piece, usually a queen.
+* promotion of a pawn in this beginner's chess signifies victory for the player who promoted their pawn and ends the game
+* click on pawn to select, click on allowed spots to move, click on self again to deselect.
 
 ## POST MVP
+
+* AI (super optional)
+* Speed beginner's Chess
+* Moving through keyboard using rank and file notation
+* Full game of chess
 
 res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg
 
