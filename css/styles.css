@@ -18,7 +18,7 @@
 	justify-content: space-around;
 	flex-direction: column-reverse;
 	align-items: center;
-	background-color: red;
+
 }
 .col{
 	justify-content: left-start;
@@ -28,8 +28,8 @@
 
 
 div{
-	height: 100px;
-	width: 100px;
+	height: 50px;
+	width: 50px;
 	border: 1px solid black;
 }
 
@@ -46,4 +46,12 @@ img{
 
 .pawn{
 	background: red;
+}
+.beige{
+	/*background: rgb(245,245,220);*/
+	 background: rgb(245,222,179);
+}
+
+.brown{
+	background: rgb(160,82,45);
 }
