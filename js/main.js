@@ -105,6 +105,8 @@ const selectPiece = function selectPiece(){
   this.isSelected = true;
   //console.log(this);
   checkAllowedMoves(this);
+
+  deselectPiece(this);
 }
 
 
@@ -121,40 +123,66 @@ const checkAllowedMoves = function checkWhichMovesArePossibleForSelectedPiece(se
   let findNumber = $selectedPiece.attr("data-number");
   //https://stackoverflow.com/questions/13964155/get-javascript-object-from-array-of-objects-by-value-or-property
   //find the object in the array
-  let findObjectInArray = piecesInPlay.filter(function(selPiece){
+  let chessPieceInArray = piecesInPlay.filter(function(selPiece){
     return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
   })
-  console.log(findObjectInArray);
-  console.log(findObjectInArray[0].rank);
+  // console.log(findObjectInArray);
+  // console.log(findObjectInArray[0].rank);
+
   //possibleMoves stores each possible square move
+  //
   let possibleMoves = [];
-  possibleMoves.push(`.row${findObjectInArray[0].rank + 2}.col${findObjectInArray[0].file}`);  possibleMoves.push(`.row${findObjectInArray[0].rank + 1}.col${findObjectInArray[0].file}`);  possibleMoves.push(`.row${findObjectInArray[0].rank + 1}.col${findObjectInArray[0].file - 1}`);
-  possibleMoves.push(`.row${findObjectInArray[0].rank + 1}.col${findObjectInArray[0].file + 1}`);
-  possibleMoves.push(findObjectInArray[0]);
+  if(chessPieceInArray[0].color == "white"){
+
+
+    if(chessPieceInArray[0].rank == 2){ //checks for the double forward move
+      possibleMoves.push(`.row${chessPieceInArray[0].rank + 2}.col${chessPieceInArray[0].file}`);
+    }
+    possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file}`);  possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file - 1}`);
+    possibleMoves.push(`.row${chessPieceInArray[0].rank + 1}.col${chessPieceInArray[0].file + 1}`);
+  }
+
   console.log(possibleMoves + 'hello');
-  for(i = 0; i < possibleMoves; i++){
+  removeClicks();
+
+  //creates selectable choices
+  for(i = 0; i < possibleMoves.length; i++){ //checks if you can capture/move
     //check if empty space
-    if($(possibleMoves).attr("data-isAlive") == true){
+
+    if($(possibleMoves[i]).attr("data-isAlive") == true){
+      let targetedChessPiece = piecesInPlay.filter(function(targetPiece){
+        return targetPiece.color == findColor && targetPiece.piece == findPiece && targetPiece.number == findNumber;
+      });
+      console.log(targetedChessPiece);
       console.log('yes there is something here');
     } else{
       console.log('there is nothing here');
+      $(possibleMoves[i]).click(test);
+      let numGrabRankRe = possibleMoves[i].match(/\d+/)[0];
+      let numGrabFileRe = possibleMoves[i].match(/\d+/)[1];
+      console.log("numgrab = " + numGrabRankRe + numGrabFileRe);
+      chessPieceInArray[0].rank = possibleMoves[i].attr;
+      chessPieceInArray[0].file = possibleMoves[i].file;
+
     }
-    let targetedSquare = $(possibleMoves[i]);
+
     let targetColor = $selectedPiece.attr("data-color");
     let targetPiece = $selectedPiece.attr("data-piece");
     let targetNumber = $selectedPiece.attr("data-number");
   }
-  if(this.piece === "pawn"){
-    if(this.color === "white"){
-      let newPos = `row${this.rank} col${this.file}`;
-      console.log(newPos);
-    }
-  }
+
+
 }
 
+function test(){
+  console.log('hello');
+}
+const selfClick = function clickOnSelfToCancel(){
+
+}
 //
 const removeClicks = function clearClickEvents(){
-
+  $("*").off("click");
 }
 
 const updatePos = function updateChessPiecePosition(){

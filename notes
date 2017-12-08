@@ -7,7 +7,8 @@ add click events for those (remove every other one?) and add click on self to ca
 update the board after a confirm
   update image of source and target location
   replaces the image of location with source
-
+ board in its own javascript file and we can use checkers, we should avoid using objects on the board because of so.
+put
 
 if i want to do objects
   8 x 4 objects or will I have each square as an object
