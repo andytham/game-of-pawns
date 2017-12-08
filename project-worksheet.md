@@ -22,7 +22,7 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 
 ## Priority Matrix
 
-http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_matrix.jpg
+!(http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_matrix.jpg)
 
 ## MVP
 
@@ -46,11 +46,11 @@ http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/priority_ma
 * Moving through keyboard using rank and file notation
 * Full game of chess
 
-res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg
+!(res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
 
 ## Wireframes
 
-res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg
+!(res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg)
 
 ## Game Components
 
