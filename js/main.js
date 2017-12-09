@@ -133,10 +133,11 @@ const selectPiece = function selectPiece(){
       let move4 = $(".row" + rank1Fix + ".col" + colRev1Fix);
 
 
+
       removeClicks();
       if(move1.attr("data-isAlive") == "false"){
         //set click event on this
-
+        move1.css("border", "2px red solid");
         move1.click(function(){ //single move forward
           //regex help, updates the position of the selected piece
           //https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
@@ -146,7 +147,7 @@ const selectPiece = function selectPiece(){
           selectedChessPiece[0].rank = findPosRegex[1];
           if(selectedChessPiece[0].rank == 8){
             console.log("reached promotion");
-            selectedChessPiece[0].piece = "queen";
+            selectedChessPiece[0].piece = "queen"; //promote to queen
             console.log(selectedChessPiece[0].piece);
             render();
           }
@@ -155,6 +156,91 @@ const selectPiece = function selectPiece(){
 
         console.log(move2.attr("data-isAlive"));
         if(move2.attr("data-isAlive") == "false" && selectedChessPiece[0].rank == 2){//double move forward
+          move2.css("border", "2px red solid");
+          move2.click(function(){
+          currentTarget = $(this).attr("class");
+          let findPosRegex = currentTarget.match(/\d/g);
+          selectedChessPiece[0].file = findPosRegex[0];
+          selectedChessPiece[0].rank = findPosRegex[1];
+          render();
+          });
+        }
+      console.log(move1.attr("data-isAlive"));
+      }else if(move1.attr("data-isAlive") == "true"){
+        console.log('something in the way');
+      } else{
+        console.log('something broke');
+      }
+      console.log("isalive" + move3.attr("data-isAlive") + "COLOR" + move3.attr("data-color"))
+      if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "black"){
+        console.log('MOVE 3 TRYING TO EXECUTE')
+        move3.css("border", "2px red solid");
+        move3.click(function(){
+          let targetColor = move3.attr("data-color");
+          let targetPiece = move3.attr("data-piece");
+          let targetNumber = move3.attr("data-number");
+          let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+            return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+          });
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = targetChessPiece[0].rank;
+          selectedChessPiece[0].file = targetChessPiece[0].file;
+          render();
+        });
+      }
+      if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
+        move4.css("border", "2px red solid");
+        move4.click(function(){
+          let targetColor = move4.attr("data-color");
+          let targetPiece = move4.attr("data-piece");
+          let targetNumber = move4.attr("data-number");
+          let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+            return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+          });
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = targetChessPiece[0].rank;
+          selectedChessPiece[0].file = targetChessPiece[0].file;
+          render();
+        })
+      }
+    } //end of white pawn logic
+  } //end of player check
+  else if(playerTurn == "black"){
+    if(selectedChessPiece[0].color == "black"){ //black pawn possible moves
+      let rank1Fix = Number(selectedChessPiece[0].rank) - 1;
+      let rank2Fix = Number(selectedChessPiece[0].rank) - 2;
+      let col1Fix = Number(selectedChessPiece[0].file) - 1;
+      let colRev1Fix = Number(selectedChessPiece[0].file) + 1;
+
+      let move1 = $(".row" + rank1Fix + ".col" + selectedChessPiece[0].file);
+      let move2 = $(".row" + rank2Fix + ".col" + selectedChessPiece[0].file);
+      let move3 = $(".row" + rank1Fix + ".col" + col1Fix);
+      let move4 = $(".row" + rank1Fix + ".col" + colRev1Fix);
+
+
+      removeClicks();
+      if(move1.attr("data-isAlive") == "false"){
+        //set click event on this
+        move1.css("border", "2px red solid");
+        move1.click(function(){ //single move forward
+          //regex help, updates the position of the selected piece
+          //https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
+          currentTarget = $(this).attr("class");
+          let findPosRegex = currentTarget.match(/\d/g);
+          selectedChessPiece[0].file = findPosRegex[0];
+          selectedChessPiece[0].rank = findPosRegex[1];
+          if(selectedChessPiece[0].rank == 8){
+            console.log("reached promotion");
+            selectedChessPiece[0].piece = "queen"; //promote to queen
+            console.log(selectedChessPiece[0].piece);
+            render();
+          }
+          render();
+        })
+
+        console.log(move2.attr("data-isAlive"));
+        if(move2.attr("data-isAlive") == "false" && selectedChessPiece[0].rank == 2){//double move forward
+          move2.css("border", "2px red solid");
           move2.click(function(){
           currentTarget = $(this).attr("class");
           let findPosRegex = currentTarget.match(/\d/g);
@@ -199,7 +285,7 @@ const selectPiece = function selectPiece(){
           render();
         })
       }
-    } //end of white pawn logic
+    } //end of black pawn logic
   } //end of player check
 }
 
