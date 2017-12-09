@@ -21,7 +21,7 @@ let col = ['','','','','','','',''];
 class ChessPiece {
   //rows are called ranks in chess
   //columns are called files in chess
-  constructor(piece, color, number, rank, file, isAlive, isSelected, isTargeted){
+  constructor(piece, color, number, rank, file, isAlive, isSelected, isEnPassantable, enPassantTimer){
     this.piece = piece;
     this.color = color;
     this.number = number;
@@ -29,7 +29,8 @@ class ChessPiece {
     this.file = file;
     this.isAlive = isAlive;
     this.isSelected = isSelected;
-    this.isTargeted = isTargeted;
+    this.isEnPassantable = isEnPassantable;
+    this.enPassantTimer = enPassantTimer;
   }
   pushIntoArray(){
     //eval(this.color+"Pieces").push(this);
@@ -47,22 +48,22 @@ const blackPieces = [];
 const piecesInPlay = [];
 
 const createPawns = function createBothPlayersPawns(){
-  const whitepawn1 = new ChessPiece("pawn", "white", 1, 2, 1, true, false, false);
-  const whitepawn2 = new ChessPiece("pawn", "white", 2, 2, 2, true, false, false);
-  const whitepawn3 = new ChessPiece("pawn", "white", 3, 2, 3, true, false, false);
-  const whitepawn4 = new ChessPiece("pawn", "white", 4, 2, 4, true, false, false);
-  const whitepawn5 = new ChessPiece("pawn", "white", 5, 2, 5, true, false, false);
-  const whitepawn6 = new ChessPiece("pawn", "white", 6, 2, 6, true, false, false);
-  const whitepawn7 = new ChessPiece("pawn", "white", 7, 2, 7, true, false, false);
-  const whitepawn8 = new ChessPiece("pawn", "white", 8, 2, 8, true, false, false);
-  const blackpawn1 = new ChessPiece("pawn", "black", 1, 7, 8, true, false, false);
-  const blackpawn2 = new ChessPiece("pawn", "black", 2, 7, 7, true, false, false);
-  const blackpawn3 = new ChessPiece("pawn", "black", 3, 7, 6, true, false, false);
-  const blackpawn4 = new ChessPiece("pawn", "black", 4, 7, 5, true, false, false);
-  const blackpawn5 = new ChessPiece("pawn", "black", 5, 7, 4, true, false, false);
-  const blackpawn6 = new ChessPiece("pawn", "black", 6, 7, 3, true, false, false);
-  const blackpawn7 = new ChessPiece("pawn", "black", 7, 7, 2, true, false, false);
-  const blackpawn8 = new ChessPiece("pawn", "black", 8, 7, 1, true, false, false);
+  const whitepawn1 = new ChessPiece("pawn", "white", 1, 2, 1, true, false, false, 0);
+  const whitepawn2 = new ChessPiece("pawn", "white", 2, 2, 2, true, false, false, 0);
+  const whitepawn3 = new ChessPiece("pawn", "white", 3, 2, 3, true, false, false, 0);
+  const whitepawn4 = new ChessPiece("pawn", "white", 4, 2, 4, true, false, false, 0);
+  const whitepawn5 = new ChessPiece("pawn", "white", 5, 2, 5, true, false, false, 0);
+  const whitepawn6 = new ChessPiece("pawn", "white", 6, 2, 6, true, false, false, 0);
+  const whitepawn7 = new ChessPiece("pawn", "white", 7, 2, 7, true, false, false, 0);
+  const whitepawn8 = new ChessPiece("pawn", "white", 8, 2, 8, true, false, false, 0);
+  const blackpawn1 = new ChessPiece("pawn", "black", 1, 7, 8, true, false, false, 0);
+  const blackpawn2 = new ChessPiece("pawn", "black", 2, 7, 7, true, false, false, 0);
+  const blackpawn3 = new ChessPiece("pawn", "black", 3, 7, 6, true, false, false, 0);
+  const blackpawn4 = new ChessPiece("pawn", "black", 4, 7, 5, true, false, false, 0);
+  const blackpawn5 = new ChessPiece("pawn", "black", 5, 7, 4, true, false, false, 0);
+  const blackpawn6 = new ChessPiece("pawn", "black", 6, 7, 3, true, false, false, 0);
+  const blackpawn7 = new ChessPiece("pawn", "black", 7, 7, 2, true, false, false, 0);
+  const blackpawn8 = new ChessPiece("pawn", "black", 8, 7, 1, true, false, false, 0);
   for(i = 1; i < 9; i++){
     eval("whitepawn"+i).pushIntoArray();
     eval("blackpawn"+i).pushIntoArray();
@@ -80,6 +81,13 @@ const render = function placeChessPiecesBasedOnLocation(){
   for(let entry of piecesInPlay){
     //console.log(entry);
     // wipe board?
+    if(entry.enPassantTimer == 1){//disable en passant is timing missed
+      entry.isEnPassantable = false;
+      entry.enPassantTimer = 0;
+    }
+    if(entry.isEnPassantable == true){//allow en passant, must be done on first turn
+      entry.enPassantTimer = 1;
+    }
 
     //checks if piece is alive then places on board
     if(entry.isAlive === true){
@@ -89,8 +97,7 @@ const render = function placeChessPiecesBasedOnLocation(){
         "data-color": entry.color,
         "data-piece": entry.piece,
         "data-number": entry.number,
-        "data-isAlive": entry.isAlive,
-        "data-isTargeted": entry.isTargeted
+        "data-isAlive": entry.isAlive
       });
 
       //console.log($currentPieceLocation);
@@ -134,9 +141,8 @@ const selectPiece = function selectPiece(){
       let move2 = $(".row" + rank2Fix + ".col" + fileFix);
       let move3 = $(".row" + rank1Fix + ".col" + file1Fix);
       let move4 = $(".row" + rank1Fix + ".col" + fileRev1Fix);
-      let enPassantCheck1 = $(".row" + rankFix + ".col" + file1Fix);
-
-      console.log(move0);
+      let move5 = $(".row" + rankFix + ".col" + file1Fix); //en passant to the right
+      let move6 = $(".row" + rankFix + ".col" + fileRev1Fix); //en passant to the left
       removeClicks();
       move0.css("border", "2px #4283ED solid");
       move0.click(function(){
@@ -173,6 +179,7 @@ const selectPiece = function selectPiece(){
           let findPosRegex = currentTarget.match(/\d/g);
           selectedChessPiece[0].file = findPosRegex[0];
           selectedChessPiece[0].rank = findPosRegex[1];
+          selectedChessPiece[0].isEnPassantable = true;
           playerTurn = "black";
           render();
           });
@@ -183,25 +190,40 @@ const selectPiece = function selectPiece(){
       } else{
         console.log('something broke');
       }
-      console.log("isalive" + move3.attr("data-isAlive") + "COLOR" + move3.attr("data-color"))
       if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "black"){
-        console.log('MOVE 3 TRYING TO EXECUTE')
+        let targetColor = move3.attr("data-color");
+        let targetPiece = move3.attr("data-piece");
+        let targetNumber = move3.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
         move3.css("border", "2px red solid");
         move3.click(function(){
-          let targetColor = move3.attr("data-color");
-          let targetPiece = move3.attr("data-piece");
-          let targetNumber = move3.attr("data-number");
-          let targetChessPiece = piecesInPlay.filter(function(tarPiece){
-            return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
-          });
           targetChessPiece[0].isAlive = false;
           selectedChessPiece[0].rank = targetChessPiece[0].rank;
           selectedChessPiece[0].file = targetChessPiece[0].file;
           playerTurn = "black";
           render();
         });
-      }else if(move3.attr("data-isAlive") == "false" ){
+      }else if(move5.attr("data-isAlive") == "true" && move5.attr("data-color") == "black" && move5.attr("data-piece") == "pawn"){// En passant to the right
+        let targetColor = move5.attr("data-color");
+        let targetPiece = move5.attr("data-piece");
+        let targetNumber = move5.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
 
+        if (targetChessPiece[0].isEnPassantable == true){
+
+        move3.css("border", "2px red solid");
+        move3.click(function(){
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = rank1Fix;
+          selectedChessPiece[0].file = file1Fix;
+          playerTurn = "black";
+          render();
+        });
+        }
       }
       if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
         move4.css("border", "2px red solid");
@@ -217,7 +239,26 @@ const selectPiece = function selectPiece(){
           selectedChessPiece[0].file = targetChessPiece[0].file;
           playerTurn = "black";
           render();
-        })
+        });
+      }else if(move6.attr("data-isAlive") == "true" && move6.attr("data-color") == "black" && move6.attr("data-piece") == "pawn"){// En passant to the right
+        let targetColor = move6.attr("data-color");
+        let targetPiece = move6.attr("data-piece");
+        let targetNumber = move6.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
+
+        if (targetChessPiece[0].isEnPassantable == true){
+
+        move4.css("border", "2px red solid");
+        move4.click(function(){
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = rank1Fix;
+          selectedChessPiece[0].file = fileRev1Fix;
+          playerTurn = "black";
+          render();
+        });
+        }
       }
     } //end of white pawn logic
   } //end of player check
@@ -272,6 +313,7 @@ const selectPiece = function selectPiece(){
           let findPosRegex = currentTarget.match(/\d/g);
           selectedChessPiece[0].file = findPosRegex[0];
           selectedChessPiece[0].rank = findPosRegex[1];
+          selectedChessPiece[0].isEnPassantable = true;
           playerTurn = "white";
           render();
           });
