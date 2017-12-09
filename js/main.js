@@ -122,19 +122,29 @@ const selectPiece = function selectPiece(){
   });
   if(playerTurn == "white"){
     if(selectedChessPiece[0].color == "white"){ //white pawn possible moves
+      let rankFix = Number(selectedChessPiece[0].rank);
+      let fileFix = Number(selectedChessPiece[0].file);
       let rank1Fix = Number(selectedChessPiece[0].rank) + 1;
       let rank2Fix = Number(selectedChessPiece[0].rank) + 2;
-      let col1Fix = Number(selectedChessPiece[0].file) + 1;
-      let colRev1Fix = Number(selectedChessPiece[0].file) -1;
+      let file1Fix = Number(selectedChessPiece[0].file) + 1;
+      let fileRev1Fix = Number(selectedChessPiece[0].file) -1;
 
-      let move1 = $(".row" + rank1Fix + ".col" + selectedChessPiece[0].file);
-      let move2 = $(".row" + rank2Fix + ".col" + selectedChessPiece[0].file);
-      let move3 = $(".row" + rank1Fix + ".col" + col1Fix);
-      let move4 = $(".row" + rank1Fix + ".col" + colRev1Fix);
+      let move0 = $(".row"+ rankFix + ".col"+ fileFix);
+      let move1 = $(".row" + rank1Fix + ".col" + fileFix);
+      let move2 = $(".row" + rank2Fix + ".col" + fileFix);
+      let move3 = $(".row" + rank1Fix + ".col" + file1Fix);
+      let move4 = $(".row" + rank1Fix + ".col" + fileRev1Fix);
+      let enPassantCheck1 = $(".row" + rankFix + ".col" + file1Fix);
 
-
-
+      console.log(move0);
       removeClicks();
+      move0.css("border", "2px #4283ED solid");
+      move0.click(function(){
+        console.log("canceled click");
+        render();
+      })
+
+
       if(move1.attr("data-isAlive") == "false"){
         //set click event on this
         move1.css("border", "2px red solid");
@@ -151,6 +161,7 @@ const selectPiece = function selectPiece(){
             console.log(selectedChessPiece[0].piece);
             render();
           }
+          playerTurn = "black";
           render();
         })
 
@@ -162,6 +173,7 @@ const selectPiece = function selectPiece(){
           let findPosRegex = currentTarget.match(/\d/g);
           selectedChessPiece[0].file = findPosRegex[0];
           selectedChessPiece[0].rank = findPosRegex[1];
+          playerTurn = "black";
           render();
           });
         }
@@ -185,8 +197,11 @@ const selectPiece = function selectPiece(){
           targetChessPiece[0].isAlive = false;
           selectedChessPiece[0].rank = targetChessPiece[0].rank;
           selectedChessPiece[0].file = targetChessPiece[0].file;
+          playerTurn = "black";
           render();
         });
+      }else if(move3.attr("data-isAlive") == "false" ){
+
       }
       if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
         move4.css("border", "2px red solid");
@@ -200,6 +215,7 @@ const selectPiece = function selectPiece(){
           targetChessPiece[0].isAlive = false;
           selectedChessPiece[0].rank = targetChessPiece[0].rank;
           selectedChessPiece[0].file = targetChessPiece[0].file;
+          playerTurn = "black";
           render();
         })
       }
@@ -207,18 +223,27 @@ const selectPiece = function selectPiece(){
   } //end of player check
   else if(playerTurn == "black"){
     if(selectedChessPiece[0].color == "black"){ //black pawn possible moves
+      let rankFix = Number(selectedChessPiece[0].rank);
+      let fileFix = Number(selectedChessPiece[0].file);
       let rank1Fix = Number(selectedChessPiece[0].rank) - 1;
       let rank2Fix = Number(selectedChessPiece[0].rank) - 2;
-      let col1Fix = Number(selectedChessPiece[0].file) - 1;
-      let colRev1Fix = Number(selectedChessPiece[0].file) + 1;
+      let file1Fix = Number(selectedChessPiece[0].file) - 1;
+      let fileRev1Fix = Number(selectedChessPiece[0].file) + 1;
 
-      let move1 = $(".row" + rank1Fix + ".col" + selectedChessPiece[0].file);
-      let move2 = $(".row" + rank2Fix + ".col" + selectedChessPiece[0].file);
-      let move3 = $(".row" + rank1Fix + ".col" + col1Fix);
-      let move4 = $(".row" + rank1Fix + ".col" + colRev1Fix);
-
+      let move0 = $(".row" + rankFix + ".col" + fileFix);
+      let move1 = $(".row" + rank1Fix + ".col" + fileFix);
+      let move2 = $(".row" + rank2Fix + ".col" + fileFix);
+      let move3 = $(".row" + rank1Fix + ".col" + file1Fix);
+      let move4 = $(".row" + rank1Fix + ".col" + fileRev1Fix);
 
       removeClicks();
+
+      move0.css("border", "2px #4283ED solid");
+      move0.click(function(){
+        console.log("canceled click");
+        render();
+      })
+
       if(move1.attr("data-isAlive") == "false"){
         //set click event on this
         move1.css("border", "2px red solid");
@@ -229,23 +254,25 @@ const selectPiece = function selectPiece(){
           let findPosRegex = currentTarget.match(/\d/g);
           selectedChessPiece[0].file = findPosRegex[0];
           selectedChessPiece[0].rank = findPosRegex[1];
-          if(selectedChessPiece[0].rank == 8){
+          if(selectedChessPiece[0].rank == 1){
             console.log("reached promotion");
             selectedChessPiece[0].piece = "queen"; //promote to queen
             console.log(selectedChessPiece[0].piece);
             render();
           }
+          playerTurn = "white";
           render();
         })
 
         console.log(move2.attr("data-isAlive"));
-        if(move2.attr("data-isAlive") == "false" && selectedChessPiece[0].rank == 2){//double move forward
+        if(move2.attr("data-isAlive") == "false" && selectedChessPiece[0].rank == 7){//double move forward
           move2.css("border", "2px red solid");
           move2.click(function(){
           currentTarget = $(this).attr("class");
           let findPosRegex = currentTarget.match(/\d/g);
           selectedChessPiece[0].file = findPosRegex[0];
           selectedChessPiece[0].rank = findPosRegex[1];
+          playerTurn = "white";
           render();
           });
         }
@@ -256,8 +283,9 @@ const selectPiece = function selectPiece(){
         console.log('something broke');
       }
       console.log("isalive" + move3.attr("data-isAlive") + "COLOR" + move3.attr("data-color"))
-      if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "black"){
+      if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "white"){
         console.log('MOVE 3 TRYING TO EXECUTE')
+        move3.css("border", "2px red solid");
         move3.click(function(){
           let targetColor = move3.attr("data-color");
           let targetPiece = move3.attr("data-piece");
@@ -268,10 +296,12 @@ const selectPiece = function selectPiece(){
           targetChessPiece[0].isAlive = false;
           selectedChessPiece[0].rank = targetChessPiece[0].rank;
           selectedChessPiece[0].file = targetChessPiece[0].file;
+          playerTurn = "white";
           render();
         });
       }
-      if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
+      if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "white"){
+        move4.css("border", "2px red solid");
         move4.click(function(){
           let targetColor = move4.attr("data-color");
           let targetPiece = move4.attr("data-piece");
@@ -282,6 +312,7 @@ const selectPiece = function selectPiece(){
           targetChessPiece[0].isAlive = false;
           selectedChessPiece[0].rank = targetChessPiece[0].rank;
           selectedChessPiece[0].file = targetChessPiece[0].file;
+          playerTurn = "white";
           render();
         })
       }
