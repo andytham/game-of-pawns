@@ -77,6 +77,7 @@ const render = function placeChessPiecesBasedOnLocation(){
   //console.log(piecesInPlay);
   wipeBoard();
   createBoard();
+  removeClicks();
   for(let entry of piecesInPlay){
     //console.log(entry);
     // wipe board?
@@ -90,7 +91,7 @@ const render = function placeChessPiecesBasedOnLocation(){
         "data-piece": entry.piece,
         "data-number": entry.number,
         "data-isAlive": entry.isAlive,
-        "data-isTargeted": entry.isTargeted,
+        "data-isTargeted": entry.isTargeted
       });
 
       //console.log($currentPieceLocation);
@@ -106,135 +107,123 @@ const render = function placeChessPiecesBasedOnLocation(){
 }
 //select piece for action
 const selectPiece = function selectPiece(){
-  this.isSelected = true;
-  $selected = $(this);
-  console.log($selected);
+
+  $checkAll = $(this);
+  //console.log($selected);
   let tempMoves = [];
   let possibleMoves = [];
 
-  let findColor = $selected.attr("data-color");
-  let findPiece = $selected.attr("data-piece");
-  let findNumber = $selected.attr("data-number");
+  let findColor = $checkAll.attr("data-color");
+  let findPiece = $checkAll.attr("data-piece");
+  let findNumber = $checkAll.attr("data-number");
   let selectedChessPiece = piecesInPlay.filter(function(selPiece){ //grab the selected piece from the object array
     return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
   });
   if(selectedChessPiece[0].color == "white"){ //white pawn possible moves
-    let move1 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file}`);
-    let move2 = $(`.row${selectedChessPiece[0].rank + 2}.col${selectedChessPiece[0].file}`);
-    let move3 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file - 1}`);
-    let move4 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file + 1}`)
+    let move1Rank = selectedChessPiece[0].rank + 1;
+    let moveTest = Number(selectedChessPiece[0].rank) + 1;
+    let rankTest = selectedChessPiece[0].rank;
+    let rankNumTest  = Number(selectedChessPiece[0].rank);
+    let rank1Fix = Number(selectedChessPiece[0].rank) + 1;
+    let rank2Fix = Number(selectedChessPiece[0].rank) + 2;
+    let col1Fix = Number(selectedChessPiece[0].file) + 1;
+    let colNeg1Fix = Number(selectedChessPiece[0].file) -1;
+
+    //console.log(move1Rank + " " + moveTest + " " + rankTest);
+    //console.log(typeof(move1Rank) + " " + typeof(moveTest) + " " + typeof(rankTest) + " " + typeof(rankNumTest));
+    let move1 = $(".row" + rank1Fix + ".col" + selectedChessPiece[0].file);
+    let move2 = $(".row" + rank2Fix + ".col" + selectedChessPiece[0].file);
+    let move3 = $(".row" + rank1Fix + ".col" + col1Fix);
+    let move4 = $(".row" + rank1Fix + ".col" + colNeg1Fix);
     //console.log(move1);
     //console.log(move1.attr("data-isAlive"));
+    removeClicks();
+    
+    console.log(move1)
+    let testpoop = move1.attr("data-isAlive");
+    // console.log(piecesInPlay);
+    // console.log(selectedChessPiece[0]);
+    console.log(testpoop + " why will this turn undefined");
     if(move1.attr("data-isAlive") == "false"){
       //set click event on this
-      possibleMoves.push(move1);
-      if(move2.attr("data-isAlive") == "false"){
-          possibleMoves.push(move2);
+
+      move1.click(function(){ //single move forward
+        //regex help, updates the position of the selected piece
+        //https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
+        poop = $(this).attr("class");
+        let findPosRegex = poop.match(/\d/g);
+        console.log("regex answer " + findPosRegex + findPosRegex[0] + findPosRegex[1]);
+        selectedChessPiece[0].file = findPosRegex[0];
+        selectedChessPiece[0].rank = findPosRegex[1];
+        render();
+      })
+
+      console.log(move2.attr("data-isAlive"));
+      if(move2.attr("data-isAlive") == "false" && selectedChessPiece[0].rank == 2){//double move forward
+        move2.click(function(){
+        console.log("hello "+ selectedChessPiece[0]);
+        let  poop2 = $(this).attr("class");
+        let findPosRegex2 = poop2.match(/\d/g);
+        selectedChessPiece[0].file = findPosRegex2[0];
+        selectedChessPiece[0].rank = findPosRegex2[1];
+        render();
+        });
       }
+    console.log(move1.attr("data-isAlive"));
     }else if(move1.attr("data-isAlive") == "true"){
+      console.log('something in the way');
     } else{
       console.log('something broke');
     }
+    console.log("isalive" + move3.attr("data-isAlive") + "COLOR" + move3.attr("data-color"))
     if(move3.attr("data-isAlive") == "true" && move3.attr("data-color") == "black"){
-      possibleMoves.push(move3);
-      let targetColor = move3.attr("data-color");
-      let targetPiece = move3.attr("data-piece");
-      let targetNumber = move3.attr("data-number");
-      let targetChessPiece = piecesInPlay.filter(function(tarPiece){
-        return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
-      });
-      targetChessPiece[0].isAlive = false;
-      selectedChessPiece[0].rank = targetChessPiece[0].rank;
-      selectedChessPiece[0].file = targetChessPiece[0].file;
+      console.log('MOVE 3 TRYING TO EXECUTE')
+      move3.click(function(){
+        let targetColor = move3.attr("data-color");
+        let targetPiece = move3.attr("data-piece");
+        let targetNumber = move3.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
+        targetChessPiece[0].isAlive = false;
+        selectedChessPiece[0].rank = targetChessPiece[0].rank;
+        selectedChessPiece[0].file = targetChessPiece[0].file;
+        render();
+      })
+
     }
     if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "black"){
-      possibleMoves.push(move4);
-      let targetColor = move4.attr("data-color");
-      let targetPiece = move4.attr("data-piece");
-      let targetNumber = move4.attr("data-number");
-      let targetChessPiece = piecesInPlay.filter(function(tarPiece){
-        return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
-      });
-      targetChessPiece[0].isAlive = false;
-      selectedChessPiece[0].rank = targetChessPiece[0].rank;
-      selectedChessPiece[0].file = targetChessPiece[0].file;
+      move4.click(function(){
+        let targetColor = move4.attr("data-color");
+        let targetPiece = move4.attr("data-piece");
+        let targetNumber = move4.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
+        targetChessPiece[0].isAlive = false;
+        selectedChessPiece[0].rank = targetChessPiece[0].rank;
+        selectedChessPiece[0].file = targetChessPiece[0].file;
+        render();
+      })
+
     }
   } //end of white pawn logic
 
-      deselectPiece(this);
 }
 
-const confirmMove = function confirmMoveTheChessPiece(){
-  let confirmSquare = piecesInPlay.filter(function(selPiece){ //grab the selected piece from the object array
-    return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
-}
-
-const targetPiece = function targetPiece(){
-  this.isTargeted = true;
-}
-
-//click again on piece to deselect
-const deselectPiece = function deselectPiece(){
-  this.isSelected = false;
-}
-
-const findSelectedChessPiece = function findSelectedChessPieceHopefully(piece){
-  console.log(piece);
-  console.log('end of the line');
-  $selectedPiece = $(piece)
-  let findColor = $selectedPiece.attr("data-color");
-  let findPiece = $selectedPiece.attr("data-piece");
-  let findNumber = $selectedPiece.attr("data-number");
-  //https://stackoverflow.com/questions/13964155/get-javascript-object-from-array-of-objects-by-value-or-property
-  //find the object in the array
-  let selectedChessPiece = piecesInPlay.filter(function(selPiece){
-    return selPiece.color == findColor && selPiece.piece == findPiece && selPiece.number == findNumber;
-  });
-  console.log(selectedChessPiece)
-  return selectedChessPiece;
-}
-
-const checkAllowedMoves = function checkWhichMovesArePossibleForSelectedPiece(selectedPiece){
-  const updatePos = function updateChessPiecePosition(){
-    //regex help, updates the position of the selected piece
-    //https://stackoverflow.com/questions/10003683/javascript-get-number-from-string
-    console.log("hello "+ selectedChessPiece[0]);
-    $currentSquare = $(this).attr("class");
-    let posGrabRe = $currentSquare.match(/\d/g);
-    console.log("updating pos");
-    selectedChessPiece[0].rank = posGrabRe[0];
-    selectedChessPiece[0].file = posGrabRe[1];
-    render();
-  }
-  //possibleMoves stores each possible square move
-  let tempMoves = [];
-  let possibleMoves = [];
-  selectedChessPiece = findSelectedChessPiece();
-
-        // if(selectedChessPiece[0].rank == 2){ //checks for the double forward move
-        // if($targetedSquare.attr("data-isAlive") == true && $targetedSquare.color == black){
-  // let targetedChessPiece = piecesInPlay.filter(function(targetPiece){
-  //   return targetPiece.color == targetColor && targetPiece.piece == targetPiece && targetPiece.number == targetNumber;
-  // });
-  console.log(possibleMoves + 'hello');
-  removeClicks();
-}
 //
 function test(){
   console.log('hello');
 }
 const selfClick = function clickOnSelfToCancel(){
-
 }
 //
 const removeClicks = function clearClickEvents(){
   $("*").off("click");
 }
 const wipeBoard = function wipeBoardToRerender(){
-  $(".col").detach();
+  $(".col").remove();
 }
-
-
 
 const removePiece = function removePieceFromBoard(){
   $(this).detach();

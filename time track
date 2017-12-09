@@ -16,3 +16,20 @@ game logic
 pawn move logic
 1 hour
 2 hours
+4 hours debugging jquery string issue
+  let move1 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file}`);
+  let move2 = $(`.row${selectedChessPiece[0].rank + 2}.col${selectedChessPiece[0].file}`);
+  let move3 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file - 1}`);
+  let move4 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file + 1}`)
+the solution to this is there are multiple problems delaing with strings that I'm not intuitively aware of. doing calculations in strings work most of the time but it seems like it is something that should be avoided, mostly in jquery as it acts a bit weird when calling upon jquery and trying to pass a selector while also doing calculations. evaluating the string or converting it to a number while inside the jquery function will not work.
+
+let move1Rank = selectedChessPiece[0].rank + 1;
+let moveTest = Number(selectedChessPiece[0].rank) + 1;
+let rankTest = selectedChessPiece[0].rank;
+let rankNumTest  = Number(selectedChessPiece[0].rank)
+
+console.log(move1Rank + " " + moveTest + " " + rankTest);
+console.log(typeof(move1Rank) + " " + typeof(moveTest) + " " + typeof(rankTest) + " " + typeof(rankNumTest));
+let move1 = $(".row" + moveTest + ".col" + selectedChessPiece[0].file);
+
+1 hour solved white pawn logic
