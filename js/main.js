@@ -276,7 +276,8 @@ const selectPiece = function selectPiece(){
       let move2 = $(".row" + rank2Fix + ".col" + fileFix);
       let move3 = $(".row" + rank1Fix + ".col" + file1Fix);
       let move4 = $(".row" + rank1Fix + ".col" + fileRev1Fix);
-
+      let move5 = $(".row" + rankFix + ".col" + file1Fix); //en passant to their right
+      let move6 = $(".row" + rankFix + ".col" + fileRev1Fix); //en passant to their left
       removeClicks();
 
       move0.css("border", "2px #4283ED solid");
@@ -341,6 +342,25 @@ const selectPiece = function selectPiece(){
           playerTurn = "white";
           render();
         });
+      }else if(move5.attr("data-isAlive") == "true" && move5.attr("data-color") == "white" && move5.attr("data-piece") == "pawn"){// En passant to the right
+        let targetColor = move5.attr("data-color");
+        let targetPiece = move5.attr("data-piece");
+        let targetNumber = move5.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
+
+        if (targetChessPiece[0].isEnPassantable == true){
+
+        move3.css("border", "2px red solid");
+        move3.click(function(){
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = rank1Fix;
+          selectedChessPiece[0].file = file1Fix;
+          playerTurn = "black";
+          render();
+        });
+        }
       }
       if(move4.attr("data-isAlive") == "true" && move4.attr("data-color") == "white"){
         move4.css("border", "2px red solid");
@@ -357,6 +377,25 @@ const selectPiece = function selectPiece(){
           playerTurn = "white";
           render();
         })
+      }else if(move6.attr("data-isAlive") == "true" && move6.attr("data-color") == "white" && move6.attr("data-piece") == "pawn"){// En passant to the right
+        let targetColor = move6.attr("data-color");
+        let targetPiece = move6.attr("data-piece");
+        let targetNumber = move6.attr("data-number");
+        let targetChessPiece = piecesInPlay.filter(function(tarPiece){
+          return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+        });
+
+        if (targetChessPiece[0].isEnPassantable == true){
+
+        move4.css("border", "2px red solid");
+        move4.click(function(){
+          targetChessPiece[0].isAlive = false;
+          selectedChessPiece[0].rank = rank1Fix;
+          selectedChessPiece[0].file = fileRev1Fix;
+          playerTurn = "black";
+          render();
+        });
+        }
       }
     } //end of black pawn logic
   } //end of player check

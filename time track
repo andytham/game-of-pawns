@@ -34,3 +34,4 @@ let move1 = $(".row" + moveTest + ".col" + selectedChessPiece[0].file);
 
 1 hour solved white pawn logic
 3 hours en passant
+30 mins en passant for black
