@@ -134,7 +134,7 @@ const selectPiece = function selectPiece(){
       let rank1Fix = Number(selectedChessPiece[0].rank) + 1;
       let rank2Fix = Number(selectedChessPiece[0].rank) + 2;
       let file1Fix = Number(selectedChessPiece[0].file) + 1;
-      let fileRev1Fix = Number(selectedChessPiece[0].file) -1;
+      let fileRev1Fix = Number(selectedChessPiece[0].file) - 1;
 
       let move0 = $(".row"+ rankFix + ".col"+ fileFix);
       let move1 = $(".row" + rank1Fix + ".col" + fileFix);
@@ -445,12 +445,30 @@ const createBoard = function createChessBoard(){
   }
 }
 
+
 const initBoard = function initalizeChessBoard(){
   return;
 }
+
+const landingPage = function loadLandingPageFunctions(event){
+  let $landingPage = $("#landing-page");
+  let $continue = $("#continue");
+  $continue.click(function(){
+    $landingPage.animate(
+      {
+        "top": "-150px",
+        "opacity": ".5"
+      },
+      500)
+
+  });
+}
+
+
 
 createBoard();
 createPawns();
 initBoard();
 render();
+landingPage();
 }); //end of jquery
