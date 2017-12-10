@@ -126,6 +126,8 @@ const render = function placeChessPiecesBasedOnLocation(){
       winnerColor = entry.color;
     }
     if(gameWin == true){
+      playerTurn = "none";
+      removeClicks();
       let $winPage = $("#win-page");
       let $winText = $("#win-text");
       let $restart = $("#restart");
@@ -159,6 +161,9 @@ const render = function placeChessPiecesBasedOnLocation(){
   //   console.log(this);
   // }
   //console.log(piecesInPlay);
+}
+const restartGame = function restartGameAndResetEverything(){
+  
 }
 let instaWin = function(){
   let winTest = $("#wt");
