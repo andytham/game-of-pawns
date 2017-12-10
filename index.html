@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="css/styles.css" type="text/css">
-    <script
-  src="https://code.jquery.com/jquery-1.12.4.min.js"
-  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-  crossorigin="anonymous"></script>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
   <script src="js/main.js"></script>
   <script src="js/moveset.js"></script>
-    <title>chess</title>
-  </head>
-  <body>
+  <title>chess</title>
+</head>
 
-<divtest id="board" class="clearfix"> </divtest>
+<body>
+  <header>
+    <div> hello </div>
+    <div id="current-player"> player's turn </div>
+  </header>
 
-  </body>
+  <form id="landing-page">
+    <div> Please Enter Your Names </div>
+    <input type="text" placeholder="Player 1's Name">    <input type="text" placeholder="Player 2's Name">
+    <input id="continue-button" type="submit" value="Continue">
+  </form>
+  <div id="board" class="clearfix"> </div>
+
+</body>
 
 
 

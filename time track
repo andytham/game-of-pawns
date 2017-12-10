@@ -36,3 +36,5 @@ let move1 = $(".row" + moveTest + ".col" + selectedChessPiece[0].file);
 3 hours en passant
 30 mins en passant for black
 20min chess border
+
+30min header
