@@ -4,24 +4,28 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
   <script src="js/main.js"></script>
   <script src="js/moveset.js"></script>
-  <title>chess</title>
+  <title>Beginner's Chess - Andy Tham</title>
 </head>
 
 <body>
   <header>
-    <div> hello </div>
-    <div id="current-player"> player's turn </div>
+    <h1> GAME OF PAWNS </h1>
+    <h2> Created by Andy Tham </h2>
   </header>
 
   <form id="landing-page">
     <div> Please Enter Your Names </div>
-    <input type="text" placeholder="Player 1's Name">    <input type="text" placeholder="Player 2's Name">
+    <input id="player1" type="text" placeholder="Player 1's Name">
+    <input id="player2" type="text" placeholder="Player 2's Name">
     <input id="continue" type="button" value="Continue">
   </form>
+  <div id="current-player"> player's turn </div>
   <div id="board" class="clearfix"> </div>
+
 
 </body>
 

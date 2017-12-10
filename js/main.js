@@ -78,6 +78,22 @@ const render = function placeChessPiecesBasedOnLocation(){
   wipeBoard();
   createBoard();
   removeClicks();
+  let $currentPlayer = $("#current-player");
+  if (playerTurn == "white"){
+    $currentPlayer.text($(player1).val() + "\'s turn");
+    $currentPlayer.css({
+      "text-shadow": "0 0 0.4em black, 0 0 0.4em black", //trying to add glow
+      "font-weight": "400",
+      "color": "white"}
+    );
+  } else if(playerTurn == "black"){
+    $currentPlayer.text($(player2).val() + "\'s turn");
+    $currentPlayer.css({
+      "text-shadow": "0 0 0.2em white, 0 0 0.2em white", //trying to add glow
+      "font-weight": "700",
+      "color": "black"}
+    );
+  }
   for(let entry of piecesInPlay){
     //console.log(entry);
     // wipe board?
@@ -149,7 +165,6 @@ const selectPiece = function selectPiece(){
         console.log("canceled click");
         render();
       })
-
 
       if(move1.attr("data-isAlive") == "false"){
         //set click event on this
@@ -450,17 +465,37 @@ const initBoard = function initalizeChessBoard(){
   return;
 }
 
+
 const landingPage = function loadLandingPageFunctions(event){
   let $landingPage = $("#landing-page");
   let $continue = $("#continue");
+  let $player1 = $("#player1");
+  let $player2 = $("#player2");
+  let $boardOpacity = $("#board");
+  let $currentPlayerOpacity = $("#current-player");
   $continue.click(function(){
     $landingPage.animate(
       {
         "top": "-150px",
         "opacity": ".5"
       },
-      500)
+      500);
 
+    $boardOpacity.animate(
+      {
+        "opacity": "1"
+      },
+      800);
+    $currentPlayerOpacity.animate(
+        {
+          "opacity": "1"
+        },
+        800);
+
+    let player1 = $player1.val();
+    let player2 = $player2.val();
+    let $initPlayerText = $("#current-player");
+    $initPlayerText.text($player1.val() + "\'s turn");
   });
 }
 

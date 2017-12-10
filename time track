@@ -38,3 +38,5 @@ let move1 = $(".row" + moveTest + ".col" + selectedChessPiece[0].file);
 20min chess border
 
 30min header
+1.5 hour animated landing page created
+1 hour stylizing + fonts

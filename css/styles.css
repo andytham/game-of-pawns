@@ -6,8 +6,9 @@
 	height:0;
 	font-size: 0;
 }
-
-
+body{
+	background: rgb(78, 118, 160);
+}
 div{
 
 }
@@ -17,44 +18,72 @@ img{
 }
 /*header*/
 header{
+	font-family: 'Quicksand', sans-serif;
 	text-align: center;
+	margin: 20px auto;
+
+}
+h1{
+	margin: 0 auto;
+	font-weight: 700;
+}
+h2{
+	font-size:23px;
+	margin: 0 auto;
+	font-weight:500;
+}
+#current-player{
+	margin: 20px;
+	font-weight: 700;
 }
 /* landing page */
 
 #landing-page{
+	font-family: 'Quicksand', sans-serif;
+	font-size:14px;
 	position: absolute;
-	top: 200px;
+	top: 100px;
 	left:0;
 	right:0;
 	margin: 0 auto;
 	display: flex;
 	height: 120px;
 	width: 300px;
-	background: #CCC;
-	border: 3px solid green;
+	background: rgb(198, 226, 255);
+	border: 3px solid rgb(53, 87, 122);
 	border-radius: 15px;
 	flex-flow: column wrap;
 	justify-content: center;
 	align-items: center;
 	transition: all 1s;
+	z-index: 2;
 }
 
-#landing-page{
+#continue{
+	width:75px;
 }
 input{
-	width: 150px;
+	font-family: 'Quicksand', sans-serif;
+	text-align: center;
+	width: 100px;
 	padding: 3px;
 	margin: 2px 0;
 }
-#continue{
 
-}
 /* javascript related classes */
+#current-player{
+	font-family: 'Quicksand', sans-serif;
+	text-align:center;
+	opacity: 0;
+	font-size: 22px;
+	font-weight: bolder;
+}
 #board{
+	opacity: 0;
 	display:flex;
 	width: 432px;
 	height: 432px;
-	border: 4px green solid;
+	border: 4px rgb(53, 87, 122) solid;
 	margin: 0 auto;
 }
 .row{
@@ -64,27 +93,18 @@ input{
 	flex-direction: column-reverse;
 	align-items: center;
 
-	border: 2px solid black;
 }
 .col{
 	justify-content: space-around;
 }
 
-.bishop{
-	background: url('images/bishop.png');
-	width: 100px;
-	background-size:cover;
-}
-
-.pawn{
-	background: red;
-}
 .beige{
 	/*background: rgb(245,245,220);*/
-
-	 background: rgb(245,222,179);
+	background: rgb(245,222,179);
+ 	border: 2px rgb(245,222,179) solid;
 }
 
 .brown{
 	background: rgb(160,82,45);
+	border: 2px rgb(160,82,45) solid;
 }
