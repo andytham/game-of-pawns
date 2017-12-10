@@ -46,6 +46,8 @@ const whitePieces = [];
 const blackPieces = [];
 // which is better
 const piecesInPlay = [];
+let gameWin = false;
+let winnerColor = "who knows";
 
 const createPawns = function createBothPlayersPawns(){
   const whitepawn1 = new ChessPiece("pawn", "white", 1, 2, 1, true, false, false, 0);
@@ -101,10 +103,9 @@ const render = function placeChessPiecesBasedOnLocation(){
       entry.isEnPassantable = false;
       entry.enPassantTimer = 0;
     }
-    if(entry.isEnPassantable == true){//allow en passant, must be done on first turn
+    if(entry.isEnPassantable == true){//allow en passant, must be done on first turn possible
       entry.enPassantTimer = 1;
     }
-
     //checks if piece is alive then places on board
     if(entry.isAlive === true){
       let $currentPieceLocation = $(".row" + entry.rank + ".col" + entry.file);
@@ -115,18 +116,61 @@ const render = function placeChessPiecesBasedOnLocation(){
         "data-number": entry.number,
         "data-isAlive": entry.isAlive
       });
-
       //console.log($currentPieceLocation);
       $currentPieceLocation.append($newPiece);
       $currentPieceLocation.click(selectPiece);
       // $currentPieceLocation.css("background", `url('images/${entry.piece}.png')`);
     }
+    if(entry.piece == "queen"){
+      gameWin = true;
+      winnerColor = entry.color;
+    }
+    if(gameWin == true){
+      let $winPage = $("#win-page");
+      let $winText = $("#win-text");
+      let $restart = $("#restart");
+      if (winnerColor == "white"){
+        $winText.text($(player1).val().toUpperCase() + " WINS!");
+        $winPage.css({
+              "text-shadow": "0 0 0.4em black, 0 0 0.4em black",
+              "color": "white",
+              "z-index": "2"
+            });
+      } else if(winnerColor == "black"){
+        $winTest.text($(player2).val().toUpperCase() + " WINS!");
+        $winPage.css({
+          "text-shadow": "0 0 0.2em white, 0 0 0.2em white",
+          "color": "black",
+          "z-index": "2"
+        });
+      }
+      $winPage.animate(
+        {	"top": "290px",
+          "opacity": "1"
+        },
+        800);
+        $restart.animate(
+          { "top": "0px", "opacity": "1"}, 1000);
+
+
+    }
   }
   // for(i = 0; i < piecesInPlay.length; i++){
   //   console.log(this);
   // }
-  console.log(piecesInPlay);
+  //console.log(piecesInPlay);
 }
+let instaWin = function(){
+  let winTest = $("#wt");
+  console.log($(winTest));
+  winTest.click(function(){
+    console.log('click test');
+    gameWin = true;
+    winnerColor = "white";
+});
+}
+
+
 //select piece for action
 let playerTurn = "white";
 
@@ -416,13 +460,6 @@ const selectPiece = function selectPiece(){
   } //end of player check
 }
 
-//
-function test(){
-  console.log('hello');
-}
-const selfClick = function clickOnSelfToCancel(){
-}
-//
 const removeClicks = function clearClickEvents(){
   $("*").off("click");
 }
@@ -460,12 +497,6 @@ const createBoard = function createChessBoard(){
   }
 }
 
-
-const initBoard = function initalizeChessBoard(){
-  return;
-}
-
-
 const landingPage = function loadLandingPageFunctions(event){
   let $landingPage = $("#landing-page");
   let $continue = $("#continue");
@@ -474,12 +505,17 @@ const landingPage = function loadLandingPageFunctions(event){
   let $boardOpacity = $("#board");
   let $currentPlayerOpacity = $("#current-player");
   $continue.click(function(){
+    $landingPage.animate( //bounce effect its kinda lame
+        {
+          "top": "600px"
+        },
+        100);
     $landingPage.animate(
       {
         "top": "-150px",
         "opacity": ".5"
       },
-      500);
+      100);
 
     $boardOpacity.animate(
       {
@@ -498,12 +534,9 @@ const landingPage = function loadLandingPageFunctions(event){
     $initPlayerText.text($player1.val() + "\'s turn");
   });
 }
-
-
-
 createBoard();
 createPawns();
-initBoard();
 render();
 landingPage();
+instaWin();
 }); //end of jquery
