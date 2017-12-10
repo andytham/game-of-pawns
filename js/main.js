@@ -45,7 +45,7 @@ class ChessPiece {
 const whitePieces = [];
 const blackPieces = [];
 // which is better
-const piecesInPlay = [];
+let piecesInPlay = [];
 let gameWin = false;
 let winnerColor = "who knows";
 
@@ -73,6 +73,21 @@ const createPawns = function createBothPlayersPawns(){
   // console.log(piecesInPlay[1]);
   // console.log(piecesInPlay);
   // console.log(piecesInPlay[0].piece)
+}
+const restartGame = function restartGameAndResetEverything(){
+  gameWin = false;
+  winnerColor = "who knows";
+  playerTurn = "white";
+  piecesInPlay = [];
+
+  removeClicks();
+  hideGameWin();
+  wipeBoard();
+  createBoard();
+  createPawns();
+  render();
+  restartLandingPage();
+
 }
 
 const render = function placeChessPiecesBasedOnLocation(){
@@ -131,6 +146,7 @@ const render = function placeChessPiecesBasedOnLocation(){
       let $winPage = $("#win-page");
       let $winText = $("#win-text");
       let $restart = $("#restart");
+      $restart.click(restartGame);
       if (winnerColor == "white"){
         $winText.text($(player1).val().toUpperCase() + " WINS!");
         $winPage.css({
@@ -152,9 +168,7 @@ const render = function placeChessPiecesBasedOnLocation(){
         },
         800);
         $restart.animate(
-          { "top": "0px", "opacity": "1"}, 1000);
-
-
+          {"top": "0px", "opacity": "1"}, 1000);
     }
   }
   // for(i = 0; i < piecesInPlay.length; i++){
@@ -162,9 +176,18 @@ const render = function placeChessPiecesBasedOnLocation(){
   // }
   //console.log(piecesInPlay);
 }
-const restartGame = function restartGameAndResetEverything(){
-  
+const hideGameWin = function restartGameWinHideWindow(){
+  let $winPage = $("#win-page");
+  console.log("hiding game win page");
+  $winPage.stop(true,false).animate({
+    "top": "500px",
+    "opacity": "0"
+  }, 700);
+  $winPage.css("z-index", "-1");
+  console.log("hiding game win page 2");
 }
+
+
 let instaWin = function(){
   let winTest = $("#wt");
   console.log($(winTest));
@@ -510,6 +533,7 @@ const landingPage = function loadLandingPageFunctions(event){
   let $boardOpacity = $("#board");
   let $currentPlayerOpacity = $("#current-player");
   $continue.click(function(){
+
     $landingPage.animate( //bounce effect its kinda lame
         {
           "top": "600px"
@@ -538,6 +562,32 @@ const landingPage = function loadLandingPageFunctions(event){
     let $initPlayerText = $("#current-player");
     $initPlayerText.text($player1.val() + "\'s turn");
   });
+}
+
+const restartLandingPage = function landingPageAfterRestartButton(){
+  let $landingPage = $("#landing-page");
+  let $continue = $("#continue");
+  let $player1 = $("#player1");
+  let $player2 = $("#player2");
+  let $boardOpacity = $("#board");
+  let $currentPlayerOpacity = $("#current-player");
+  $landingPage.animate( //bounce effect its kinda lame
+      {
+        "top": "100px",
+        "opacity": "1"
+      },
+      100);
+  $boardOpacity.animate(
+    {
+      "opacity": "0"
+    },
+    800);
+  $currentPlayerOpacity.animate(
+      {
+        "opacity": "0"
+      },
+      800);
+  landingPage();
 }
 createBoard();
 createPawns();
