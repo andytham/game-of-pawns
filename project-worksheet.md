@@ -46,11 +46,11 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 * Moving through keyboard using rank and file notation
 * Full game of chess
 
-!(https://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
+![pic](http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
 
 ## Wireframes
 
-!(https://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg)
+![pic](http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg)
 
 ## Game Components
 
