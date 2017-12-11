@@ -46,11 +46,11 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 * Moving through keyboard using rank and file notation
 * Full game of chess
 
-!(res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
+!(https://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
 
 ## Wireframes
 
-!(res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg)
+!(https://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_mvp.jpg)
 
 ## Game Components
 
@@ -61,7 +61,7 @@ What will a player see when they start your game?
 What will a player see when the game is started?
 
 ### Playing The Game
-What will be the flow of the game, what will the user be expeted to do and what will the user expect from the gam
+What will be the flow of the game, what will the user be expected to do and what will the user expect from the gam
 
 ### Winning The Game
 What does it look like when the game ends, what determines winning or losing?
@@ -71,23 +71,28 @@ How will the user restart the game once it has been completed.
 
 ## Functional Components
 
-Based on the initial logic defined in the previous game phases section try and breakdown the logic further into functional components, and by that we mean functions.  Does your logic indicate that code could be encapsulated for the purpose of reusablility.  Once a function has been defined it can then be incorporated into a class as a method.
+Based on the initial logic defined in the previous game phases section try and breakdown the logic further into functional components, and by that we mean functions.  Does your logic indicate that code could be encapsulated for the purpose of reusability.  Once a function has been defined it can then be incorporated into a class as a method.
 
-Time frames are also key in the development cycle.  You have limited time to code all phases of the game.  Your estimates can then be used to evalute game possibilities based on time needed and the actual time you have before game must be submitted.
+Time frames are also key in the development cycle.  You have limited time to code all phases of the game.  Your estimates can then be used to evaluate game possibilities based on time needed and the actual time you have before game must be submitted.
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
+| Board Creation | H | 3 hrs| 2 hrs | 2 hrs |
+| Board Layout | M | 1 hrs| 2 hrs | 12hrs |
+| Render Logic | H | 3 hrs| 1 hr | 12hrs |
+| Component 1 | H | 10hrs| 12hrs | 12hrs |
+| Component 1 | H | 10hrs| 12hrs | 12hrs |
 | Component 1 | H | 10hrs| 12hrs | 12hrs |
 
 ## Helper Functions
-Helper functions should be generic enought that they can be reused in other applications. Use this section to document all helper functions that fall into this category.
+Helper functions should be generic enough that they can be reused in other applications. Use this section to document all helper functions that fall into this category.
 
 | Function | Description |
 | --- | :---: |  
 | Capitalize | This will capitalize the first letter in a string |
 
 ## Additional Libraries
- Use this section to list all supporting libraries and thier role in the project.
+ Use this section to list all supporting libraries and their role in the project.
 
 ## Code Snippet
 

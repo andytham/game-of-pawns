@@ -2,21 +2,6 @@ $(document).ready(() => {
 
 let row = ['','','','','','','',''];
 let col = ['','','','','','','',''];
-
-  // for(i = 0; i < col.length;i++){
-  //   let colCreate = document.createElement('div');
-  //   colCreate.setAttribute('class', "col"+i);
-  //   board.appendChild(colCreate);
-  //   let currentCol = document.getElementsByClassName('col'+i)[0];
-  //   for(j = 0; j < row.length;j++){
-  //     let rowCreate = document.createElement('div');      rowCreate.setAttribute('class', 'col col'+i+ ' row'+j);
-  //     currentCol.appendChild(rowCreate);
-  //
-  //   }
-  // }
-  // let test = document.createElement('img');
-  // test.setAttribute('src','images/bishop.png');
-
 //chess piece class constructor
 class ChessPiece {
   //rows are called ranks in chess
@@ -589,6 +574,7 @@ const restartLandingPage = function landingPageAfterRestartButton(){
       800);
   landingPage();
 }
+
 createBoard();
 createPawns();
 render();

@@ -34,7 +34,7 @@ Your app must:
 
 Your presentation must:
 
-- First demo the functionality of the game...show us it works and how to play it. 
+- First demo the functionality of the game...show us it works and how to play it.
 - Be at least 3 slides...and no more than 3...
 - Include at least one wireframe that shows your game page
 - Answer the following questions:
@@ -88,7 +88,7 @@ For the presentation:
 #### Potential Project Ideas
 
 ##### Beginner
-- Simon 
+- Simon
 - War - Two Player
 - Connect 4 - Two Player
 - Self-scoring Trivia
