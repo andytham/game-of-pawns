@@ -94,8 +94,8 @@ Time frames are also key in the development cycle.  You have limited time to cod
 | --- | :---: |  :---: | :---: | :---: |
 | Board Creation | H | 3 hrs| 2 hrs | 2 hrs |
 | Board Layout | M | 1 hrs| 2 hrs | 2 hrs  |
-| Render Logic | H | 3 hrs| 1 hr | 1 hr  |
-| Pawn Move Logic | H | 10hrs| 11.5 hrs | 11.5 hrs |
+| Render Logic | H | 3 hrs| 3 hr | 3 hr  |
+| Pawn Move Logic | H | 10 hrs| 13 hrs | 13 hrs |
 | En Passant | H | 1 hr| 3.5 hrs | 3.5 hrs |
 | Page Layout | M | 2 hrs | 3 hr | 3 hr  |
 | Landing Page | M | 1 hr| 1.5 hrs | 1.5 hrs |
