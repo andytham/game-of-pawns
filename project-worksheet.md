@@ -1,4 +1,4 @@
-# Project Overview
+jQuery# Project Overview
 
 ## Project Schedule
 
@@ -45,6 +45,8 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 * Speed beginner's Chess
 * Moving through keyboard using rank and file notation
 * Full game of chess
+* Move history
+
 
 ![pic](http://res.cloudinary.com/andytham/image/upload/v1512673082/PROJECT1/wireframe_post_mvp.jpg)
 
@@ -54,20 +56,33 @@ Beginner's Chess, is a variation on chess where the only pieces on the board are
 
 ## Game Components
 
+Chess board
+Chess pieces
+Move logic
+Special move logic (en passant)
+Promotion/Win condition
+Restart
+History
+
+
 ### Landing Page
-What will a player see when they start your game?
+
+There is a in game prompt asking for the two player's name and a continue button so they can start the game.
 
 ### Game Initialization
-What will a player see when the game is started?
+The chess board is setup with all the pawns in place, the player's turn is indicated.
 
 ### Playing The Game
-What will be the flow of the game, what will the user be expected to do and what will the user expect from the gam
+
+Player 1, who controls the white pawns start the game, and can move their pawns in several ways, one move per player per turn. On a pawn's very first move they can move forward two spaces. As a caveat, an opponent can capture a pawn that it could normally capture if it didn't move two spaces, in a move called en passant, and place it in that space. Otherwise, pawns can only move forward one space, and only capture pieces in diagonally spot. If a pawn reaches the opposite end of a board, it will be promoted into a queen and the game will end.
+
 
 ### Winning The Game
-What does it look like when the game ends, what determines winning or losing?
+Winning the game shows a popup that shows the player's name indicating
 
 ### Game Reset
-How will the user restart the game once it has been completed.
+
+A reset will pop up under the victory line and allow the players to start over from scratch without reloading the page.
 
 ## Functional Components
 
@@ -78,35 +93,67 @@ Time frames are also key in the development cycle.  You have limited time to cod
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
 | Board Creation | H | 3 hrs| 2 hrs | 2 hrs |
-| Board Layout | M | 1 hrs| 2 hrs | 12hrs |
-| Render Logic | H | 3 hrs| 1 hr | 12hrs |
-| Component 1 | H | 10hrs| 12hrs | 12hrs |
-| Component 1 | H | 10hrs| 12hrs | 12hrs |
-| Component 1 | H | 10hrs| 12hrs | 12hrs |
+| Board Layout | M | 1 hrs| 2 hrs | 2 hrs  |
+| Render Logic | H | 3 hrs| 1 hr | 1 hr  |
+| Pawn Move Logic | H | 10hrs| 11.5 hrs | 11.5 hrs |
+| En Passant | H | 1 hr| 3.5 hrs | 3.5 hrs |
+| Page Layout | M | 2 hrs | 3 hr | 3 hr  |
+| Landing Page | M | 1 hr| 1.5 hrs | 1.5 hrs |
+| Win Screen | M | 1 hr| 1 hr | 1 hr |
+| Restart | M | 2 hrs | 1 hr | 1 hr  |
+| History | L | 2 hrs| 3 hrs | 3 hrs |
 
 ## Helper Functions
 Helper functions should be generic enough that they can be reused in other applications. Use this section to document all helper functions that fall into this category.
 
 | Function | Description |
 | --- | :---: |  
-| Capitalize | This will capitalize the first letter in a string |
+| createBoard | Creates a checkered board. |
+| ChessPiece | Class for creating chess piece objects. |
 
 ## Additional Libraries
- Use this section to list all supporting libraries and their role in the project.
+ No additional libraries used, only jQuery.
 
 ## Code Snippet
 
-Use this section to include a brief code snippet of functionality that you are proud of an a brief description.  
+```
+move6.attr("data-piece") == "pawn") { // En passant to the right
+  let targetColor = move6.attr("data-color");
+  let targetPiece = move6.attr("data-piece");
+  let targetNumber = move6.attr("data-number");
+  let targetChessPiece = piecesInPlay.filter(function(tarPiece) {
+    return tarPiece.color == targetColor && tarPiece.piece == targetPiece && tarPiece.number == targetNumber;
+  });
+
+  if (targetChessPiece[0].isEnPassantable == true) {
+
+    move4.css("border", "2px red solid");
+    move4.click(function() {
+      targetChessPiece[0].isAlive = false;
+      selectedChessPiece[0].rank = rank1Fix;
+      selectedChessPiece[0].file = fileRev1Fix;
+      let historyRegex = currentTarget.match(/\d/g);
+      updateHistory(historyRegex[1],historyRegex[0],playerTurn);
+      playerTurn = "black";
+      render();
+    });
+  }
+}
+```
 
 ## jQuery Discoveries
- Use this section to list some, but not all, of the jQuery methods and\or functionality discovered while working on this project.
+ .match(), regex function for finding strings or characters
+ .remove(), deletes the element and everything in it
 
 ## Change Log
  Use this section to document what changes were made and the reasoning behind those changes.  
 
 ## Issues and Resolutions
  Use this section to list of all major issues encountered and their resolution.
-
-#### SAMPLE.....
-**ERROR**: app.js:34 Uncaught SyntaxError: Unexpected identifier                                
-**RESOLUTION**: Missing comma after first object in sources {} object
+```
+let move1 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file}`);
+let move2 = $(`.row${selectedChessPiece[0].rank + 2}.col${selectedChessPiece[0].file}`);
+let move3 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file - 1}`);
+let move4 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file + 1}`)
+```
+the solution to this is there are multiple problems dealing with strings that I'm not intuitively aware of. doing calculations in strings work most of the time but it seems like it is something that should be avoided, mostly in jQuery as it acts a bit weird when calling upon jQuery and trying to pass a selector while also doing calculations. evaluating the string or converting it to a number while inside the jQuery function will not work.

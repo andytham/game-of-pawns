@@ -66,6 +66,7 @@ $(document).ready(() => {
     playerTurn = "white";
     piecesInPlay = [];
 
+    $(".discard").remove();
     removeClicks();
     hideGameWin();
     wipeBoard();
@@ -141,7 +142,7 @@ $(document).ready(() => {
             "z-index": "2"
           });
         } else if (winnerColor == "black") {
-          $winTest.text($(player2).val().toUpperCase() + " WINS!");
+          $winText.text($(player2).val().toUpperCase() + " WINS!");
           $winPage.css({
             "text-shadow": "0 0 0.2em white, 0 0 0.2em white",
             "color": "black",
@@ -163,7 +164,49 @@ $(document).ready(() => {
     //   console.log(this);
     // }
     //console.log(piecesInPlay);
+    console.log("hey do something");
+    let $historyButton = $("#history-button"); //clickable history button
+    if ($historyButton.attr("value") == "display history"){
+          console.log('displayHistory running')
+      $historyButton.click(displayHistory);
+    } else if ($historyButton.attr("value") == "hide history"){
+          console.log('hide history running')
+      $historyButton.click(hideHistory);
+    }
+  } //end of render
+  const updateHistory = function updateHistory(rank, file, player) {
+    console.log('history updated');
+    let $history1 = $("#history1");
+    let $history2 = $("#history2");
+    let letterFile = convertString.charAt(file);
+    if(player == "white"){
+      $history1.append("<div>" + letterFile + rank + " " + "</div>");
+      console.log('white just moved');
+    } else if(player == "black"){
+      $history2.append("<div>"+ "-"+ letterFile + rank + "</div>");
+      console.log('black just moved');
+    }
   }
+  const displayHistory = function displayHistory(){
+
+    let $historyButton = $("#history-button");
+    let $historyContainer = $("#history-container");
+
+    $historyContainer.css("display","flex");
+    $historyButton.attr("value", "hide history");
+    $historyButton.click(hideHistory);
+  }
+  const hideHistory = function hideHistory(){
+
+    let $historyButton = $("#history-button");
+    let $historyContainer = $("#history-container");
+
+    $historyContainer.css("display","none");
+    $historyButton.attr("value", "display history");
+    $historyButton.click(displayHistory);
+    ;
+  }
+
   const hideGameWin = function restartGameWinHideWindow() {
     let $winPage = $("#win-page");
     console.log("hiding game win page");
@@ -242,7 +285,12 @@ $(document).ready(() => {
               console.log(selectedChessPiece[0].piece);
               render();
             }
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "black";
+
+            console.log('call upon history func');
+
             render();
           })
 
@@ -255,6 +303,8 @@ $(document).ready(() => {
               selectedChessPiece[0].file = findPosRegex[0];
               selectedChessPiece[0].rank = findPosRegex[1];
               selectedChessPiece[0].isEnPassantable = true;
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
               playerTurn = "black";
               render();
             });
@@ -277,6 +327,8 @@ $(document).ready(() => {
             targetChessPiece[0].isAlive = false;
             selectedChessPiece[0].rank = targetChessPiece[0].rank;
             selectedChessPiece[0].file = targetChessPiece[0].file;
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "black";
             render();
           });
@@ -295,6 +347,8 @@ $(document).ready(() => {
               targetChessPiece[0].isAlive = false;
               selectedChessPiece[0].rank = rank1Fix;
               selectedChessPiece[0].file = file1Fix;
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
               playerTurn = "black";
               render();
             });
@@ -312,6 +366,8 @@ $(document).ready(() => {
             targetChessPiece[0].isAlive = false;
             selectedChessPiece[0].rank = targetChessPiece[0].rank;
             selectedChessPiece[0].file = targetChessPiece[0].file;
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "black";
             render();
           });
@@ -330,6 +386,8 @@ $(document).ready(() => {
               targetChessPiece[0].isAlive = false;
               selectedChessPiece[0].rank = rank1Fix;
               selectedChessPiece[0].file = fileRev1Fix;
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
               playerTurn = "black";
               render();
             });
@@ -377,6 +435,8 @@ $(document).ready(() => {
               console.log(selectedChessPiece[0].piece);
               render();
             }
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "white";
             render();
           })
@@ -390,6 +450,8 @@ $(document).ready(() => {
               selectedChessPiece[0].file = findPosRegex[0];
               selectedChessPiece[0].rank = findPosRegex[1];
               selectedChessPiece[0].isEnPassantable = true;
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
               playerTurn = "white";
               render();
             });
@@ -414,6 +476,8 @@ $(document).ready(() => {
             targetChessPiece[0].isAlive = false;
             selectedChessPiece[0].rank = targetChessPiece[0].rank;
             selectedChessPiece[0].file = targetChessPiece[0].file;
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "white";
             render();
           });
@@ -432,7 +496,9 @@ $(document).ready(() => {
               targetChessPiece[0].isAlive = false;
               selectedChessPiece[0].rank = rank1Fix;
               selectedChessPiece[0].file = file1Fix;
-              playerTurn = "black";
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
+              playerTurn = "white";
               render();
             });
           }
@@ -449,6 +515,8 @@ $(document).ready(() => {
             targetChessPiece[0].isAlive = false;
             selectedChessPiece[0].rank = targetChessPiece[0].rank;
             selectedChessPiece[0].file = targetChessPiece[0].file;
+            let historyRegex = currentTarget.match(/\d/g);
+            updateHistory(historyRegex[1],historyRegex[0],playerTurn);
             playerTurn = "white";
             render();
           })
@@ -467,7 +535,10 @@ $(document).ready(() => {
               targetChessPiece[0].isAlive = false;
               selectedChessPiece[0].rank = rank1Fix;
               selectedChessPiece[0].file = fileRev1Fix;
-              playerTurn = "black";
+              let historyRegex = currentTarget.match(/\d/g);
+              updateHistory(historyRegex[1],historyRegex[0],playerTurn);
+              playerTurn = "white";
+
               render();
             });
           }
@@ -524,8 +595,10 @@ $(document).ready(() => {
     let $player2 = $("#player2");
     let $boardOpacity = $("#board");
     let $currentPlayerOpacity = $("#current-player");
-    $continue.click(function() {
 
+    $continue.click(function() {
+      let $historyButton = $("#history-button");
+      $historyButton.css("display","block");
       $landingPage.animate( //bounce effect its kinda lame
         {
           "top": "600px"
@@ -560,6 +633,11 @@ $(document).ready(() => {
     let $player2 = $("#player2");
     let $boardOpacity = $("#board");
     let $currentPlayerOpacity = $("#current-player");
+
+    //hide display history button
+    let $historyButton = $("#history-button");
+    $historyButton.css("display","none");
+
     $landingPage.animate( //bounce effect its kinda lame
       {
         "top": "100px",
@@ -575,9 +653,6 @@ $(document).ready(() => {
       },
       800);
     landingPage();
-  }
-  const updateHistory = function updateHistory(rank, file) {
-    
   }
 
   createBoard();
