@@ -101,14 +101,14 @@ input{
 #board{
 	opacity: 0;
 	display:flex;
-	width: 432px;
-	height: 432px;
-	border: 4px rgb(53, 87, 122) solid;
+	width: 672px;
+	height: 672px;
+	border: 7px rgb(53, 87, 122) solid;
 	margin: 0 auto;
 }
 .row{
-	height: 50px;
-	width: 50px;
+	height: 80px;
+	width: 80px;
 	justify-content: space-around;
 	flex-direction: column-reverse;
 	align-items: center;
@@ -133,7 +133,7 @@ input{
 	flex-direction: column;
 	justify-content: flex-start;
 	position: relative;
-	left: -40px;
+	left: 0px;
 }
 #history-container2{
 	display:flex;
@@ -161,8 +161,27 @@ input{
 	display: none;
 }
 #container{
-	width: 700px;
+	width: 800px;
 	display:flex;
 	margin: 0 auto;
 	justify-content: center;
+}
+
+@media (max-width:600px){
+	.row{
+		width: 45px;
+		height: 45px;
+	}
+	#board{
+		width:392px;
+		height:392px;
+		margin:0 auto;
+	}
+	#container{
+		width: 500px;
+		display:flex;
+		margin: 0 auto;
+		justify-content: center;
+	}
+
 }

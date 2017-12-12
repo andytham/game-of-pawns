@@ -6,9 +6,10 @@
 // }
 
 class PawnMoves extends ChessPiece{
-  constructor(forward1, forward2, diagonalRight, diagonalLeft, enPassant, promotion){
+  constructor(piece, color, number, rank, file, isAlive, isSelected, isEnPassantable, enPassantTimer, forward1, forward2, diagonalRight, diagonalLeft, enPassant, promotion){
 
   }
+  super(piece, color, number, rank, file, isAlive, isSelected, isEnPassantable, enPassantTimer);
   forward1(){
 
   }

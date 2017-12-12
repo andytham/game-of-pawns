@@ -156,4 +156,4 @@ let move2 = $(`.row${selectedChessPiece[0].rank + 2}.col${selectedChessPiece[0].
 let move3 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file - 1}`);
 let move4 = $(`.row${selectedChessPiece[0].rank + 1}.col${selectedChessPiece[0].file + 1}`)
 ```
-the solution to this is there are multiple problems dealing with strings that I'm not intuitively aware of. doing calculations in strings work most of the time but it seems like it is something that should be avoided, mostly in jQuery as it acts a bit weird when calling upon jQuery and trying to pass a selector while also doing calculations. evaluating the string or converting it to a number while inside the jQuery function will not work.
+The solution to this is there are multiple problems dealing with strings that I'm not intuitively aware of. doing calculations in strings work most of the time but it seems like it is something that should be avoided, mostly in jQuery as it acts a bit weird when calling upon jQuery and trying to pass a selector while also doing calculations. evaluating the string or converting it to a number while inside the jQuery function will not work.
